@@ -1,0 +1,228 @@
+/* ==========================================================================
+   TalentFit — Modern SaaS (indigo/slate) visual identity
+   ==========================================================================
+   Palette (named, not Tailwind stock indigo-500):
+     --ink      #1D2140  primary text / dark surfaces
+     --void     #100F24  deepest surface (hero, footer)
+     --indigo   #4536D1  brand primary
+     --indigo-d #372AA8  brand primary, pressed/dark
+     --canvas   #F5F6FB  page background
+     --card     #FFFFFF  card surface
+     --line     #E3E5F1  hairline borders
+     --mint     #17A672  "met" / success signal
+     --amber    #E1A438  "partial / nice-to-have" signal
+     --rose     #E2536B  "not met / must-have missing" signal
+   Type: Space Grotesk (display, geometric+confident) / IBM Plex Sans (body)
+         / IBM Plex Mono (anything quantitative — scores, points, dates)
+   Signature: the Fit Ring + Fit Ledger — the match-score engine rendered as
+   a literal, reusable visual object (conic-gradient ring badge + a weighted,
+   segmented bar breakdown) rather than a bare percentage anywhere in the app.
+   ========================================================================== */
+
+:root {
+    --ink: #1D2140;
+    --void: #100F24;
+    --indigo: #4536D1;
+    --indigo-d: #372AA8;
+    --indigo-50: #EEECFB;
+    --canvas: #F5F6FB;
+    --card: #FFFFFF;
+    --line: #E3E5F1;
+    --mint: #17A672;
+    --mint-bg: #E7F7F0;
+    --amber: #B9791A;
+    --amber-bg: #FBF1DD;
+    --rose: #C93A54;
+    --rose-bg: #FBE7EB;
+    --slate: #5B6382;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-display {
+    font-family: 'Space Grotesk', 'IBM Plex Sans', sans-serif;
+    letter-spacing: -0.01em;
+}
+
+.font-mono, .mono, code, .tabular {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+a { color: var(--indigo); }
+
+/* ---- brand mark ------------------------------------------------------- */
+.brand-mark {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--indigo) 0%, #7A6CF0 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px -4px rgba(69, 54, 209, 0.55);
+}
+
+/* ---- top nav ------------------------------------------------------------ */
+.tf-nav {
+    background: var(--void);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.tf-nav a.nav-link { color: rgba(255,255,255,0.72); transition: color .15s; }
+.tf-nav a.nav-link:hover, .tf-nav a.nav-link.active { color: #fff; }
+
+/* ---- cards --------------------------------------------------------------*/
+.card-surface {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+/* ---- job card (Naukri/LinkedIn-style) ------------------------------------ */
+.job-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--indigo);
+    border-radius: 12px;
+    transition: box-shadow .15s, transform .15s;
+}
+.job-card:hover {
+    box-shadow: 0 12px 24px -14px rgba(29, 33, 64, 0.25);
+    transform: translateY(-1px);
+}
+.job-card.tier-great  { border-left-color: var(--mint); }
+.job-card.tier-good   { border-left-color: var(--indigo); }
+.job-card.tier-partial{ border-left-color: var(--amber); }
+.job-card.tier-low    { border-left-color: var(--rose); }
+
+/* ---- Fit Ring: signature score badge, conic-gradient donut -------------- */
+.fit-ring {
+    --pct: 0;
+    --ring-color: var(--indigo);
+    width: var(--ring-size, 54px);
+    height: var(--ring-size, 54px);
+    border-radius: 50%;
+    background: conic-gradient(var(--ring-color) calc(var(--pct) * 1%), var(--line) 0);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+}
+.fit-ring::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    background: var(--card);
+    border-radius: 50%;
+}
+.fit-ring span {
+    position: relative;
+    z-index: 1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--ink);
+}
+.fit-ring.on-dark::before { background: var(--void); }
+.fit-ring.on-dark span { color: #fff; }
+
+/* ---- Fit Ledger: weighted component bars (the scoring formula, drawn) --- */
+.fit-bar-row { display: grid; grid-template-columns: 150px 1fr 56px; gap: 0.75rem; align-items: center; }
+.fit-bar-track {
+    height: 10px;
+    background: var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.fit-bar-fill { height: 100%; border-radius: 999px; }
+
+/* per-skill requirement row status chip */
+.chip {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.15rem 0.6rem; border-radius: 999px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
+}
+.chip-met { background: var(--mint-bg); color: var(--mint); }
+.chip-partial { background: var(--amber-bg); color: var(--amber); }
+.chip-missing { background: var(--rose-bg); color: var(--rose); }
+
+.skill-row-met { border-left: 3px solid var(--mint); }
+.skill-row-partial { border-left: 3px solid var(--amber); }
+.skill-row-missing { border-left: 3px solid var(--rose); }
+
+/* ---- badges for statuses -------------------------------------------------*/
+.status-badge { display:inline-flex; align-items:center; padding: 0.2rem 0.65rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+.status-applied     { background:#EEF0FB; color:#4045A0; }
+.status-shortlisted  { background:#E7F0FB; color:#2166B0; }
+.status-interview   { background:var(--amber-bg); color:var(--amber); }
+.status-offered      { background:var(--mint-bg); color:var(--mint); }
+.status-rejected     { background:var(--rose-bg); color:var(--rose); }
+.status-withdrawn    { background:#EEF0F4; color:var(--slate); }
+.status-pending      { background:var(--amber-bg); color:var(--amber); }
+.status-approved     { background:var(--mint-bg); color:var(--mint); }
+.status-suspended    { background:var(--rose-bg); color:var(--rose); }
+.status-open         { background:var(--mint-bg); color:var(--mint); }
+.status-closed       { background:#EEF0F4; color:var(--slate); }
+.status-draft        { background:var(--amber-bg); color:var(--amber); }
+.status-flagged      { background:var(--rose-bg); color:var(--rose); }
+
+/* ---- buttons ------------------------------------------------------------ */
+.btn-primary {
+    background: var(--indigo); color: #fff; border-radius: 9px;
+    padding: 0.55rem 1.1rem; font-weight: 600; font-size: 0.9rem;
+    transition: background .15s;
+    display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+}
+.btn-primary:hover { background: var(--indigo-d); color: #fff; }
+.btn-secondary {
+    background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 9px;
+    padding: 0.55rem 1.1rem; font-weight: 600; font-size: 0.9rem;
+    display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+}
+.btn-secondary:hover { border-color: var(--indigo); color: var(--indigo); }
+.btn-danger { background: var(--rose); color: #fff; border-radius: 9px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.85rem; }
+.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
+
+/* ---- forms ---------------------------------------------------------------*/
+.field-label { display:block; font-size: 0.82rem; font-weight: 600; color: var(--ink); margin-bottom: 0.3rem; }
+.field-input {
+    width: 100%; border: 1px solid var(--line); border-radius: 9px;
+    padding: 0.55rem 0.75rem; font-size: 0.92rem; background: #fff; color: var(--ink);
+}
+.field-input:focus { outline: 2px solid var(--indigo); outline-offset: 1px; border-color: var(--indigo); }
+.field-error { color: var(--rose); font-size: 0.8rem; margin-top: 0.25rem; }
+.field-hint { color: var(--slate); font-size: 0.78rem; margin-top: 0.25rem; }
+
+/* ---- profile completeness meter -------------------------------------- */
+.meter-track { height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.meter-fill { height: 100%; background: linear-gradient(90deg, var(--indigo), #7A6CF0); border-radius: 999px; }
+
+/* ---- timeline (experience / education) ------------------------------- */
+.tf-timeline { position: relative; padding-left: 1.5rem; }
+.tf-timeline::before { content:''; position:absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+.tf-timeline-item { position: relative; padding-bottom: 1.25rem; }
+.tf-timeline-item::before {
+    content: ''; position: absolute; left: -1.5rem; top: 4px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--indigo); border: 2px solid #fff; box-shadow: 0 0 0 2px var(--indigo-50);
+}
+
+/* ---- hero (public/login pages) ---------------------------------------- */
+.tf-hero {
+    background: radial-gradient(circle at 15% 20%, rgba(122,108,240,0.35), transparent 45%),
+                radial-gradient(circle at 85% 0%, rgba(69,54,209,0.5), transparent 40%),
+                var(--void);
+    color: #fff;
+}
+
+/* ---- misc ---------------------------------------------------------------*/
+.section-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--indigo); }
+.hairline { border-color: var(--line); }
+.skeleton-empty { border: 1px dashed var(--line); border-radius: 12px; color: var(--slate); }
+
+@media (max-width: 640px) {
+    .fit-bar-row { grid-template-columns: 1fr; row-gap: 0.35rem; }
+}

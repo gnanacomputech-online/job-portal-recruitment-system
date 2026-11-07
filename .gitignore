@@ -1,0 +1,13 @@
+/vendor/
+/install.lock
+/.env
+/public/uploads/*
+!/public/uploads/.gitkeep
+!/public/uploads/logos
+!/public/uploads/resumes
+/public/uploads/logos/*
+!/public/uploads/logos/.gitkeep
+/public/uploads/resumes/*
+!/public/uploads/resumes/.gitkeep
+.DS_Store
+Thumbs.db
